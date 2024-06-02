@@ -1,52 +1,23 @@
 #include "Table.h"
 
+#define COLOR
+
 #define PRINTTOP(X) printEl(grid[2]);for(int z = 1; z < X; z++){printEl(grid[0], mchars + 6);printEl(grid[6]);}printEl(grid[0], mchars + 6);printEl(grid[4]);std::wcout<<std::endl;
 #define PRINTMIDLE(X) printEl(grid[8]);for(int z = 1; z < X; z++){printEl(grid[0], mchars + 6);printEl(grid[10]);}printEl(grid[0], mchars + 6);printEl(grid[9]);std::wcout<<std::endl;
 #define PRINTBOTTOM(X) printEl(grid[3]);for(int z = 1; z < X; z++){printEl(grid[0], mchars + 6);printEl(grid[7]);}printEl(grid[0], mchars + 6);printEl(grid[5]);
 #define FOR_I(X) for(int i = 0; i < X; i++)
 #define FOR_J(X) for(int j = 0; j < X; j++)
 #define FOR_K(X) for(int k = 0; k < X; k++)
+#ifdef COLOR 
 #define PAINT_TEXT std::wcout << colorize(style[0]);
 #define PAINT_GRAF std::wcout << colorize(style[1]);
 #define PAINT_ARROW(X) std::wcout << colorize(style[2]) << cursor.arrow[X];
-
-
-#ifdef _WIN32
-
-#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
-#define DISABLE_NEWLINE_AUTO_RETURN  0x0008
-
-void Table::activateVirtualTerminal()
-{
-	HANDLE handleOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	DWORD consoleMode;
-	GetConsoleMode(handleOut, &consoleMode);
-	consoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-	consoleMode |= DISABLE_NEWLINE_AUTO_RETURN;
-	SetConsoleMode(handleOut, consoleMode);
-}
+#else
+#define PAINT_TEXT
+#define PAINT_GRAF
+#define PAINT_ARROW(X) std::wcout << cursor.arrow[X];
 #endif
-/*
-enum Table::COLORS {
-	NC = -1,
-	BLACK,
-	RED,
-	GREEN,
-	YELLOW,
-	BLUE,
-	MAGENTA,
-	CYAN,
-	WHITE,
-	GREY = 60,
-	BRIGHT_RED,
-	BRIGHT_GREEN,
-	BRIGHT_YELLOW,
-	BRIGHT_BLUE,
-	BRIGHT_MAGENTA,
-	BRIGHT_CYAN,
-	BRIGHT_WHITE
-};
-*/
+
 const wchar_t* Table::colorize(int *styl = nullptr) {
 	static wchar_t code[20];
     int font, back;
@@ -204,51 +175,57 @@ int Table::getMlines()
 
 int Table::getCursor()
 {
-    return cursor.column * mlines + cursor.row * column * mlines + cursor.line;
+    return cursor.row * column * mlines + cursor.column * mlines + cursor.line;
 }
 
-void Table::moveCursor(int code, int upl)
+int Table::moveCursor(int code, int upl)
 {
     switch(code){
         case UP:
         if(cursor.line > 0)
         {
             cursor.line--;
+            return 1;
         }
         else if(cursor.row > 0)
         {
             cursor.row--;
             cursor.line = 0;
+            return 1;
         }
-        break;
+        return 0;
         case DOWN:
         if(cursor.line < mlines - 1 && cursor.line < content[cursor.row * column + cursor.column].size() - upl - 1)
         {
             cursor.line++;
+            return 1;
         }
         else if(cursor.row < row - 1)
         {
             cursor.row++;
             cursor.line = 0;
+            return 1;
         }
-        break;
+        return 0;
         case LEFT:
         if(cursor.column > 0)
         {
             cursor.column--;
             cursor.line = 0;
+            return 1;
         }
-        break;
+        return 0;
         case RIGHT:
         if(cursor.column < column - 1)
         {
             cursor.column++;
             cursor.line = 0;
+            return 1;
         }
-        break;
+        return 0;
         case START:
             cursor.line = 0;
-            break;
+            return 1;
     }
 }
 

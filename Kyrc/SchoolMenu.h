@@ -6,8 +6,8 @@
 #include <string>
 #include <codecvt>
 #include <fstream>
-//#include <iostream>
-#include <stdlib.h>
+#include <conio.h>
+#include <Windows.h>
 
 
 class SchoolMenu
@@ -16,8 +16,6 @@ public:
     static Menu* getMenu(int, Table*, std::wstring);
 
     static void update(std::vector<Menu*> menus);
-
-    static void update(Menu* menus, int i);
 
     static int getUpLine();
 

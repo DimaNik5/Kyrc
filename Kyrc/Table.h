@@ -2,7 +2,6 @@
 #include<iostream>
 #include<vector>
 #include<string>
-#include <Windows.h>
 
 #define UP 72
 #define DOWN 80
@@ -14,7 +13,6 @@
 class Table
 {
     public:
-    //enum COLORS;
     int getColumn();
     int getRow();
     int getMlines();
@@ -32,7 +30,7 @@ class Table
     void getStyleGraf(int*, int*);
     void getStyleArrow(int*, int*);
     
-    void moveCursor(int, int);
+    int moveCursor(int, int);
     void printTable(int);
 
 
@@ -41,11 +39,6 @@ class Table
     std::wstring grid;
     std::vector<std::wstring> name;
     std::vector<std::vector<std::wstring>> content;
-    // �����
-    // ���� ������, ���� ����
-    // текст 
-    // графика
-    // стрелки
     int style[STYLE_SIZE][2];
 
     struct Cursor {
@@ -55,7 +48,6 @@ class Table
 
     void printEl(wchar_t, int n = 1);
     void printCenter(std::wstring, int k = 0);
-    void activateVirtualTerminal();
     const wchar_t* colorize(int*);
     void nulStyle();
 };

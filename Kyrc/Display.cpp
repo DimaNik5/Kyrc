@@ -42,17 +42,10 @@ void Display::print()
     table->printTable(SchoolMenu::getUpLine());
 }
 
-void Display::upload(int i)
+void Display::upload()
 {
-    if(i > -1)
-    {
-        SchoolMenu::update(cur->getAfter(),i);
-    }
-    else
-    {
-        std::vector<Menu*> t = {cur, cur->getAfter()};
-        SchoolMenu::update(t);
-    }
+    std::vector<Menu*> t = {cur, cur->getAfter()};
+    SchoolMenu::update(t);
 }
 
 int Display::read()
@@ -64,23 +57,19 @@ int Display::read()
     case DOWN:
     case DOWN1:
     case DOWN2:
-        table->moveCursor(DOWN, SchoolMenu::getUpLine());
-        return 1;
+        return table->moveCursor(DOWN, SchoolMenu::getUpLine());
     case UP:
     case UP1:
     case UP2:
-        table->moveCursor(UP, SchoolMenu::getUpLine());
-        return 1;
+        return table->moveCursor(UP, SchoolMenu::getUpLine());
     case LEFT:
     case LEFT1:
     case LEFT2:
-        table->moveCursor(LEFT, SchoolMenu::getUpLine());
-        return 1;
+        return table->moveCursor(LEFT, SchoolMenu::getUpLine());
     case RIGHT:
     case RIGHT1:
     case RIGHT2:
-        table->moveCursor(RIGHT, SchoolMenu::getUpLine());
-        return 1;
+        return table->moveCursor(RIGHT, SchoolMenu::getUpLine());
     case ENTER:
     {
         Menu* temp = cur;

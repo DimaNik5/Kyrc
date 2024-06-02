@@ -4,11 +4,6 @@ int Menu::note;
 
 Menu::Menu(std::wstring name, Menu* pa): name(name), parent(pa) {}
 
-Menu::~Menu()
-{
-    content.clear();
-}
-
 void Menu::setAfter(Menu* a)
 {
     after = a;

@@ -2,12 +2,10 @@
 
 #include <vector>
 #include <string>
-#include <iostream>
-//#include <fstream>
+#include <conio.h>
 #include "Table.h"
 #include "Menu.h"
 #include "SchoolMenu.h"
-#include <conio.h>
 
 class Display
 {
@@ -21,6 +19,6 @@ class Display
     Menu* cur;
     Table* table;
     void print();
-    void upload(int i = -1);
+    void upload();
     int read();
 };

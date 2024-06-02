@@ -1,5 +1,4 @@
 #include "SchoolMenu.h"
-#include <conio.h>
 
 std::locale SchoolMenu::utf8_locale;
 int SchoolMenu::curUpLine;
@@ -61,12 +60,6 @@ void SchoolMenu::update(std::vector<Menu*> menus)
         curTable->recontent(menus[i]->getContent());
     }
     curTable->moveCursor(-1, curUpLine);
-}
-
-void SchoolMenu::update(Menu* menus, int i)
-{
-    curTable->rename(menus->getName(), i);
-    curTable->recontent(menus->getContent(), i);
 }
 
 Menu* SchoolMenu::down(Menu* menus)
@@ -255,11 +248,7 @@ Menu* SchoolMenu::showSchedule(Menu* cur)
     }
     else
     {
-        i = curTable->getCursor();
-        do {
-            i -= mline;
-        } while (i >= 0);
-        i += mline + curUpLine;
+        i = getLine();
     }
     printSchedule(i);
     return nullptr;
@@ -517,7 +506,6 @@ void SchoolMenu::addMenu(Menu* m, int i)
         m->setContent(L"Выход", &exita);
         break;
     case 10:
-        //m->setContent(L"Класс", (Menu*)nullptr);
         m->setContent(L"Расписание", createMenu(13, m));
         m->setContent(L"Выход", &exita);
         break;
@@ -736,9 +724,6 @@ Menu* SchoolMenu::createMenu(int i, Menu* p)
     case 19:
         mM = new Menu(L"Классы");
         mM->setNote();
-        break;
-    default:
-        mM = new Menu(L"default");
         break;
     }
     cM = new Menu(L"Команды");

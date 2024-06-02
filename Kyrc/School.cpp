@@ -1,4 +1,3 @@
-//#include <iostream>
 #include "Display.h"
 #include <io.h>          // для функции _setmode
 #include <fcntl.h>       // для константы _O_U16TEXT

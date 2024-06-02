@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -9,13 +8,14 @@ class Menu
 {
     public:
     Menu(std::wstring, Menu* = nullptr);
-    ~Menu();
     void setNote();
     static int getNote();
     void setAfter(Menu*);
     void setBefor(Menu*);
+    void setParent(Menu*);
     Menu* getAfter();
     Menu* getBefor();
+    Menu* getParent();
     void setContent(std::wstring, Menu*);
     void setContent(std::wstring, Menu* (*)(Menu*));
     void setContent(Menu*, int);
@@ -25,8 +25,6 @@ class Menu
     int getSizeContent();
     Menu* useContent(int, Menu*);
     std::wstring getName();
-    Menu* getParent();
-    void setParent(Menu*);
 
     private:
     std::wstring name;
@@ -35,10 +33,6 @@ class Menu
         std::wstring name;
         Menu* (*act)(Menu*) = nullptr;
         Menu* next = nullptr;
-        bool operator<(Enclose& other)
-        {
-            return this->name < other.name;
-        }
     };
     std::vector<Enclose> content;
     static int note;
